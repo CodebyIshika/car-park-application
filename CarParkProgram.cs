@@ -32,6 +32,7 @@ namespace Lab_04
             return carPark;
         }
 
+
         /// <summary>
         /// Checking the validity of user license number
         /// </summary>
@@ -43,6 +44,7 @@ namespace Lab_04
             string licenseRegex = @"^[A-Z0-9]{3}-[A-Z0-9]{3}$";
             return Regex.IsMatch(license, licenseRegex);
         }
+
 
         /// <summary>
         /// This method adds the vehicle to the first unoccupied stall, reserves it by 
@@ -88,10 +90,11 @@ namespace Lab_04
         {
             try
             {
-                // check if stall number exits
+                // check if stall number exists
                 if (!carPark.ContainsKey(stallNumber))
                     throw new InvalidOperationException("Stall doesn't exist");
 
+                // check if stall number is occupied or not
                 if (carPark[stallNumber] == null)
                 {
                     Console.WriteLine($"Stall {stallNumber} is already unoccupied.");
@@ -107,6 +110,7 @@ namespace Lab_04
                 return false;
             }
         }
+
 
         /// <summary>
         /// This method attempts to remove a vehicle with a specified license 
@@ -141,6 +145,7 @@ namespace Lab_04
                 return false;
             }
         }
+
 
         /// <summary>
         /// This method return the list of all parking stall and parking vehicles
