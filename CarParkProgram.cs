@@ -77,6 +77,7 @@ namespace Lab_04
             }
         }
 
+
         /// <summary>
         /// This method attempts to vacate a specified parking stall and 
         /// also check if the stall exists or not
@@ -88,8 +89,14 @@ namespace Lab_04
             try
             {
                 // check if stall number exits
-                if (!carPark.ContainsKey(stallNumber) || carPark[stallNumber] == null)
+                if (!carPark.ContainsKey(stallNumber))
                     throw new InvalidOperationException("Stall doesn't exist");
+
+                if (carPark[stallNumber] == null)
+                {
+                    Console.WriteLine($"Stall {stallNumber} is already unoccupied.");
+                    return false;
+                }
 
                 carPark[stallNumber] = null;
                 return true;
@@ -150,7 +157,7 @@ namespace Lab_04
                     string stallInfo = $"Stall number : {kv.Key}";
 
                     // Create a string with license information or indicate unoccupied status.
-                    string licenseInfo = kv.Value != null ? $" license number: {kv.Value}" : "Unoccupied";
+                    string licenseInfo = kv.Value != null ? $"license number: {kv.Value}" : "Unoccupied";
 
                     string spaces = new string(' ', 3);
                     manifest += stallInfo + spaces + licenseInfo + "\n";
