@@ -12,22 +12,31 @@ namespace Lab_04
     {
         Dictionary<int, string> carPark = new Dictionary<int, string>();
 
+        /// <summary>
+        /// This method creates a dictionary representing a car park with a specified capacity
+        /// </summary>
+        /// <param name="capacity"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public  Dictionary<int, string> InitializeCarPark(int capacity)
         {
             if (capacity <= 0)
                 throw new ArgumentException("Capacity should be greater than 0.");
 
-            carPark = new Dictionary<int, string>();
+            carPark.Clear();
 
             for (int i = 1; i <= capacity; i++)
             {
                 carPark.Add(i, null);
-                //Console.WriteLine("Stall number : {0} license number : {1}", i, carPark[i]);
             }
             return carPark;
-
         }
 
+        /// <summary>
+        /// Checking the validity of user license number
+        /// </summary>
+        /// <param name="license"></param>
+        /// <returns></returns>
         public bool isLicenseValid(string license)
         { 
             // regex for license
@@ -35,13 +44,21 @@ namespace Lab_04
             return Regex.IsMatch(license, licenseRegex);
         }
 
+        /// <summary>
+        /// This method adds the vehicle to the first unoccupied stall, reserves it by 
+        /// assigning the license and returns the stall number
+        /// </summary>
+        /// <param name="license"></param>
+        /// <returns></returns>
         public int AddVehicle(string license)
         {
             try
             {
+                // checking validity of license
                 if (!isLicenseValid(license))
                     throw new ArgumentException("Invalid License number. Please enter a valid License number");
 
+                // check if stall is unoccupied
                 for (int i = 1; i <= carPark.Count;i++)
                 {
                     if (carPark[i] == null)
@@ -60,10 +77,17 @@ namespace Lab_04
             }
         }
 
-        public bool VacantStall(int stallNumber)
+        /// <summary>
+        /// This method attempts to vacate a specified parking stall and 
+        /// also check if the stall exists or not
+        /// </summary>
+        /// <param name="stallNumber"></param>
+        /// <returns></returns>
+        public bool VacateStall(int stallNumber)
         {
             try
             {
+                // check if stall number exits
                 if (!carPark.ContainsKey(stallNumber) || carPark[stallNumber] == null)
                     throw new InvalidOperationException("Stall doesn't exist");
 
@@ -77,18 +101,27 @@ namespace Lab_04
             }
         }
 
+        /// <summary>
+        /// This method attempts to remove a vehicle with a specified license 
+        /// number from the parking.
+        /// </summary>
+        /// <param name="licenseNumber"></param>
+        /// <returns></returns>
         public bool LeaveParkade(string licenseNumber)
         {
             try
             {
+                // check validity of license number
                 if (!isLicenseValid(licenseNumber))
                     throw new ArgumentException("Invalid license number");
 
-
+                // remove the vehicle
                 foreach(var kv in carPark)
                 {
+                    // check if current stall has vehicle of provided license number
                     if (kv.Value == licenseNumber)
                     {
+                        // set value to null to remove the vehicle
                         carPark[kv.Key] = null;
                         return true;
                     }
@@ -102,6 +135,10 @@ namespace Lab_04
             }
         }
 
+        /// <summary>
+        /// This method return the list of all parking stall and parking vehicles
+        /// </summary>
+        /// <returns></returns>
         public string Manifest()
         {
             try
@@ -111,9 +148,11 @@ namespace Lab_04
                 foreach (var kv in carPark)
                 {
                     string stallInfo = $"Stall number : {kv.Key}";
+
+                    // Create a string with license information or indicate unoccupied status.
                     string licenseInfo = kv.Value != null ? $" license number: {kv.Value}" : "Unoccupied";
 
-                    string spaces = new string(' ', 2);
+                    string spaces = new string(' ', 3);
                     manifest += stallInfo + spaces + licenseInfo + "\n";
                 }
 
