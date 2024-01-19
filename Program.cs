@@ -51,6 +51,14 @@ namespace CarParkApplication
                             Console.WriteLine($"Error : {ex.Message}");
                         }
                         break;
+                     case 2:
+                        Console.Write("Enter the stall number to vacate : ");
+                        int stallToVacate = Convert.ToInt32(Console.ReadLine());
+
+                        bool vacated = carParkObj.VacantStall(stallToVacate);
+                        Console.WriteLine(vacated ? $"Stall {stallToVacate} vacated successfully." : "Invalid stall.");
+                        break;
+
                 }
             }
 
