@@ -17,21 +17,15 @@ namespace Lab_04
             if (capacity <= 0)
                 throw new ArgumentException("Capacity should be greater than 0.");
 
-            carPark.Clear(); // 
+            carPark = new Dictionary<int, string>();
 
-            for (int i = 0; i < capacity; i++)
+            for (int i = 1; i <= capacity; i++)
             {
                 carPark.Add(i, null);
                 //Console.WriteLine("Stall number : {0} license number : {1}", i, carPark[i]);
             }
             return carPark;
 
-        }
-
-        public string LicenseNumber()
-        {
-            Console.Write("Enter your license number : ");
-            return Console.ReadLine();
         }
 
         public bool isLicenseValid(string license)
@@ -48,12 +42,12 @@ namespace Lab_04
                 if (!isLicenseValid(license))
                     throw new ArgumentException("Invalid License number. Please enter a valid License number");
 
-                foreach(int stallNumber in carPark.Keys)
+                for (int i = 1; i <= carPark.Count;i++)
                 {
-                    if (carPark[stallNumber] == null)
+                    if (carPark[i] == null)
                     {
-                        carPark[stallNumber] = license;
-                        return stallNumber;
+                        carPark[i] = license;
+                        return i;
                     }
                 }
 
@@ -90,6 +84,7 @@ namespace Lab_04
                 if (!isLicenseValid(licenseNumber))
                     throw new ArgumentException("Invalid license number");
 
+
                 foreach(var kv in carPark)
                 {
                     if (kv.Value == licenseNumber)
@@ -102,7 +97,7 @@ namespace Lab_04
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error : {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
                 return false;
             }
         }
@@ -116,8 +111,10 @@ namespace Lab_04
                 foreach (var kv in carPark)
                 {
                     string stallInfo = $"Stall number : {kv.Key}";
-                    string licenseInfo = kv.Value != null ? $"license number: {kv.Value}" : "Unoccupied";
-                    manifest += stallInfo + licenseInfo;
+                    string licenseInfo = kv.Value != null ? $" license number: {kv.Value}" : "Unoccupied";
+
+                    string spaces = new string(' ', 2);
+                    manifest += stallInfo + spaces + licenseInfo + "\n";
                 }
 
                 return manifest;

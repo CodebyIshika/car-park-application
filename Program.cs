@@ -14,18 +14,13 @@ namespace CarParkApplication
             Console.WriteLine("Welcome to Car Park!");
             CarParkProgram carParkObj = new CarParkProgram();
 
-            //// Initialising the capacity of car park
-            //carParkObj.InitializeCarPark(5);
+            // Initialising the capacity of car park
+            carParkObj.InitializeCarPark(10);
 
-            //// get the license number
-            //string license = carParkObj.LicenseNumber();
-            
-            //// Add the vehicle to the car park
-            //int stallNumber = carParkObj.AddVehicle(license);
 
             while (true)
             {
-                Console.WriteLine("\n1. Add vehicle \n2. Vacant Stall \n3. Leave Parkade \n4. Display Manifest \n5. Exit");
+                Console.WriteLine("\n1. Add vehicle \n2. Vacant Stall \n3. Leave Parkade \n4. Display Manifest");
                 Console.Write("Enter your choice : ");
                 int userChoice = Convert.ToInt32(Console.ReadLine());
 
@@ -41,22 +36,40 @@ namespace CarParkApplication
                             {
                                 Console.WriteLine("Vehicle parked successfully in stall {0}", stallNumber);
                             }
-                            else
-                            {
-                                Console.WriteLine("Sorry, no unoccupied stall availabe");
-                            }
+                            
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine($"Error : {ex.Message}");
                         }
                         break;
+
                      case 2:
                         Console.Write("Enter the stall number to vacate : ");
                         int stallToVacate = Convert.ToInt32(Console.ReadLine());
 
                         bool vacated = carParkObj.VacantStall(stallToVacate);
-                        Console.WriteLine(vacated ? $"Stall {stallToVacate} vacated successfully." : "Invalid stall.");
+                        if (vacated)
+                        {
+                            Console.WriteLine($"Stall {stallToVacate} vacated successfully.");
+                        }
+                        break;
+
+                    case 3:
+                        Console.Write("Enter the license number to leave the parkade : ");
+                        string licenseNumber = Console.ReadLine();
+
+                        bool leftParkade = carParkObj.LeaveParkade(licenseNumber);
+                        if (leftParkade)
+                            Console.WriteLine("Vehicle left the parkade successfully.");
+                        break;
+
+                     case 4:
+                        Console.WriteLine(carParkObj.Manifest());
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid choice. Please enter again.");
                         break;
 
                 }
